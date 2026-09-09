@@ -1,3 +1,9 @@
+choreonoid-corba (2.5.0-1) experimental; urgency=medium
+
+  * Supported Choreonoid 2.5.0.
+
+ -- Nobuhiko Miyamoto <n-miyamoto@aist.go.jp>  Wed, 09 Sep 2026 11:40:01 +0900
+
 choreonoid-corba (2.4.0-1) experimental; urgency=medium
 
   * New upstream release.

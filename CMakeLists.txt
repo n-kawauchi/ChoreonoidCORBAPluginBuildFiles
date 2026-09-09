@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.16)
 project(CorbaPlugin)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -40,6 +40,7 @@ set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ${CHOREONOID_COMPILE_
 
 # Note that the OMNIORB_XXX varialbes cannot be used because
 # the variables collide with those of OpenRTM-aist configuration.
+find_package(PkgConfig REQUIRED)
 if(UNIX)
   if(NOT CHOREONOID_OMNIORB_DIR)
     # The required package can be installed by the following command in Ubuntu.

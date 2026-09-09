@@ -1,0 +1,35 @@
+FROM ubuntu:26.04
+
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update && apt-get install -y\
+ software-properties-common\ 
+ g++\
+ make\
+ cmake\
+ wget\
+ gnupg\
+ build-essential\
+ debhelper\
+ devscripts\
+ libomniorb4-dev\
+ omniidl
+ 
+RUN add-apt-repository ppa:choreonoid.org/stable\
+ && apt-get update && apt-get install -y\
+ choreonoid
+ 
+COPY ChoreonoidCORBAPluginBuildFiles /root/ChoreonoidCORBAPluginBuildFiles
+WORKDIR /root/ChoreonoidCORBAPluginBuildFiles
+RUN cmake\
+  -S /root/ChoreonoidCORBAPluginBuildFiles\
+  -B /tmp/rtm/build\
+ && cmake --build /tmp/rtm/build --target install/strip -- -j$(nproc)
+
+WORKDIR /root/ChoreonoidCORBAPluginBuildFiles/packages/deb/
+RUN mkdir -p /root/cnoid-corba-deb-pkgs\
+ && chmod 775 dpkg_build.sh\
+ && ./dpkg_build.sh
+
+RUN cp /root/ChoreonoidCORBAPluginBuildFiles/packages/choreonoid* /root/cnoid-corba-deb-pkgs/
